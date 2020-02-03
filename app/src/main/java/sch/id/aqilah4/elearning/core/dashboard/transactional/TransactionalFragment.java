@@ -29,9 +29,9 @@ public class TransactionalFragment extends Fragment implements TransactionalView
     private List<History> histories;
     private TransactionalPresenter presenter;
 
-    @BindView(R.id.history_list)
+//    @BindView(R.id.history_list)
     RecyclerView history_list;
-    @BindView(R.id.history_loading)
+//    @BindView(R.id.history_loading)
     ProgressBar history_loading;
 
     public TransactionalFragment() {
@@ -41,26 +41,38 @@ public class TransactionalFragment extends Fragment implements TransactionalView
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_transactional, container, false);
-        ButterKnife.bind(this, view);
-        initComponent(view);
-        return view;
+//        View view = inflater.inflate(R.layout.fragment_transactional, container, false);
+//        ButterKnife.bind(this, view);
+//        initComponent(view);
+        return inflater.inflate(R.layout.fragment_transactional, container, false);
+
+//        return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        presenter.loadHistory();
-    }
+        history_loading = view.findViewById(R.id.history_loading);
+        history_list = view.findViewById(R.id.history_list);
 
-    private void initComponent(View view) {
         presenter   = new TransactionalPresenter(this);
         histories   = new ArrayList<>();
 
         history_list.setLayoutManager(new LinearLayoutManager(getContext()));
         history_list.setItemAnimator(new DefaultItemAnimator());
+        history_loading = view.findViewById(R.id.history_loading);
+        history_list = view.findViewById(R.id.history_list);
+        presenter.loadHistory();
     }
+
+//    private void initComponent(View view) {
+//        presenter   = new TransactionalPresenter(this);
+//        histories   = new ArrayList<>();
+//
+//        history_list.setLayoutManager(new LinearLayoutManager(getContext()));
+//        history_list.setItemAnimator(new DefaultItemAnimator());
+//    }
     @Override
     public void loadHistory(ResponseHistory history) {
         if (history.getStatus().booleanValue()){
