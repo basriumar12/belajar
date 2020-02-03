@@ -9,7 +9,7 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-        buildConfigField("String", "BASE_URL", "\"http://smkinsanaqilah4jkt.sch.id/api\"")
+        buildConfigField("String", "BASE_URL", "\"http://smkinsanaqilah4jkt.sch.id/api/\"")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

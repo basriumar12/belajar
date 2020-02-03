@@ -27,33 +27,40 @@ public class DashboardActivity extends AppCompatActivity {
             R.drawable.ic_more
     };
 
-    @BindView(R.id.dashboard_toolbartitle)
+//    @BindView(R.id.dashboard_toolbartitle)
     TextView dashboard_toolbartitle;
 
-    @BindView(R.id.dashboard_toolbar)
+//    @BindView(R.id.dashboard_toolbar)
     Toolbar dashboard_toolbar;
 
-    @BindView(R.id.dashboard_pager)
+//    @BindView(R.id.dashboard_pager)
     ViewPager dashboard_pager;
 
-    @BindView(R.id.dashboard_tablayout)
+//    @BindView(R.id.dashboard_tablayout)
     TabLayout dashboard_tablayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         ButterKnife.bind(this);
 
+
+        dashboard_pager = findViewById(R.id.dashboard_pager);
+        dashboard_tablayout = findViewById(R.id.dashboard_tablayout);
+        dashboard_toolbar = findViewById(R.id.dashboard_toolbar);
+        dashboard_toolbartitle = findViewById(R.id.dashboard_toolbartitle);
+
         initComponent();
     }
 
     private void initComponent() {
-        if (dashboard_toolbar != null){
+//        if (dashboard_toolbar != null){
             setSupportActionBar(dashboard_toolbar);
             createViewPager(dashboard_pager);
             dashboard_tablayout.setupWithViewPager(dashboard_pager);
             createTabIcon();
-        }
+//        }
     }
 
     private void createTabIcon() {

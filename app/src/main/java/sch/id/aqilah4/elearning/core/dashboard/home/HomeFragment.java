@@ -41,11 +41,11 @@ public class HomeFragment extends Fragment implements HomeView {
     private List<Category> categories;
     private List<PackageLatest> latests;
 
-    @BindView(R.id.home_listcategory)
+//    @BindView(R.id.home_listcategory)
     RecyclerView home_listcategory;
-    @BindView(R.id.home_loading)
+//    @BindView(R.id.home_loading)
     ProgressBar home_loading;
-    @BindView(R.id.home_listlatest)
+//    @BindView(R.id.home_listlatest)
     RecyclerView home_listlatest;
     public HomeFragment() {
     }
@@ -55,6 +55,12 @@ public class HomeFragment extends Fragment implements HomeView {
                              Bundle savedInstanceState) {
         View view   = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
+
+        home_listlatest = view.findViewById(R.id.home_listlatest);
+        home_loading = view.findViewById(R.id.home_loading);
+        home_listcategory = view.findViewById(R.id.home_listcategory);
+
+
         initComponent(view);
         return view;
     }
