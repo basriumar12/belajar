@@ -70,11 +70,11 @@ public class OtherFragment extends Fragment implements OtherView {
     }
     @OnClick(R.id.other_about)
     public void aboutUs(){
-        Toast.makeText(getActivity(), "Develop by Raka Adi Nugroho", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Develop by Ali Yasin", Toast.LENGTH_SHORT).show();
     }
     @OnClick(R.id.other_helpme)
     public void helpMe(){
-        Uri uri = Uri.parse("http://google.com");
+        Uri uri = Uri.parse("https://smkinsanaqilah4jkt.sch.id/contact");
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
     }

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 
 import java.util.ArrayList;
@@ -48,6 +49,7 @@ public class HomeFragment extends Fragment implements HomeView, TransactionalVie
     private List<PackageLatest> latests;
     private List<History> mHistory  ;
     private TransactionalPresenter presenter;
+    SwipeRefreshLayout swipe_refersh;
 
 
     //    @BindView(R.id.home_listcategory)
@@ -64,7 +66,7 @@ public class HomeFragment extends Fragment implements HomeView, TransactionalVie
                              Bundle savedInstanceState) {
         View view   = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
-
+        swipe_refersh = view.findViewById(R.id.swipe_refersh);
         home_listlatest = view.findViewById(R.id.home_listlatest);
         home_loading = view.findViewById(R.id.home_loading);
         home_listcategory = view.findViewById(R.id.home_listcategory);
@@ -77,15 +79,24 @@ public class HomeFragment extends Fragment implements HomeView, TransactionalVie
     private void initComponent(View view) {
         homePresenter   = new HomePresenter(this);
         presenter   = new TransactionalPresenter(this);
+
         presenter.loadHistory();
 
+        swipe_refersh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.loadHistory();
+                homePresenter.loadAllData();
+            }
+        });
 
         // Create List Category
         home_listcategory.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         home_listcategory.addOnItemTouchListener(selectItemListener());
         home_listcategory.setItemAnimator(new DefaultItemAnimator());
         // Create List Latest
-        home_listlatest.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+       // home_listlatest.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        home_listlatest.setLayoutManager(new GridLayoutManager(getActivity(),2));
         home_listlatest.addOnItemTouchListener(latestClickListener());
         home_listlatest.setItemAnimator(new DefaultItemAnimator());
     }
@@ -123,7 +134,7 @@ public class HomeFragment extends Fragment implements HomeView, TransactionalVie
                     PackageLatest latest = latests.get(position);
                     homePresenter.getItemPackage(latest, getActivity());
                 } else {
-                    Toast.makeText(getActivity(), "Sudah mengikuti test", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Kamu Sudah Mengikuti "+latests.get(position).getExamTitle(), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -143,10 +154,13 @@ public class HomeFragment extends Fragment implements HomeView, TransactionalVie
     public void loadHistory(ResponseHistory history) {
         mHistory = new ArrayList<>();
         mHistory = history.getHistory();
+        swipe_refersh.setRefreshing(false);
     }
 
     @Override
     public void loadHistoryError(String message) {
+        swipe_refersh.setRefreshing(false);
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
 
     }
 
@@ -162,6 +176,7 @@ public class HomeFragment extends Fragment implements HomeView, TransactionalVie
 
     @Override
     public void categorySuccess(ResponseCategory responseCategory) {
+        swipe_refersh.setRefreshing(false);
         if (responseCategory.getStatus()){
             this.categories = responseCategory.getCategory();
             home_listcategory.setAdapter(new CategoryAdapter(getActivity(), categories));
@@ -175,6 +190,7 @@ public class HomeFragment extends Fragment implements HomeView, TransactionalVie
 
     @Override
     public void latestSuccess(ResponseLatest latest) {
+        swipe_refersh.setRefreshing(false);
         if (latest.getStatus().booleanValue()){
             this.latests    = latest.getPackageLatest();
             home_listlatest.setAdapter(new LatestAdapter(getActivity(), latests, R.layout.item_latest));
@@ -183,6 +199,7 @@ public class HomeFragment extends Fragment implements HomeView, TransactionalVie
 
     @Override
     public void latestFailed(String failed) {
+        swipe_refersh.setRefreshing(false);
         Toast.makeText(getActivity(), "Terjadi Kesalahan 2 :"+ failed, Toast.LENGTH_SHORT).show();
     }
 

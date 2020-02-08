@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="sch.id.aqilah4.elearning">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -12,16 +13,22 @@
         android:roundIcon="@drawable/aqilah4"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
-        <activity android:name=".core.quiz.QuizV2Activity"></activity>
-        <activity
-            android:name=".core.authentication.AuthActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        android:usesCleartextTraffic="true"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".core.SplashScreenActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".core.quiz.QuizV2Activity" />
+        <activity
+            android:name=".core.authentication.AuthActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
         </activity>
         <activity
             android:name=".core.dashboard.DashboardActivity"

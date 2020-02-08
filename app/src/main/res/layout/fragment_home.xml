@@ -1,3 +1,10 @@
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:id="@+id/swipe_refersh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -27,18 +34,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
+
             <LinearLayout
                 android:paddingTop="@dimen/big_standard_margin"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:text="Quiz Rekomendasi"
+                    android:text="Silahkan Pilih Ujian Yang Tersedia"
                     android:layout_marginLeft="@dimen/small_standard_margin"
                     android:textSize="@dimen/standard_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:visibility="gone"
                     android:text="Quiz-quiz Rekomendasi Terbaru Terpopuler."
                     android:layout_marginLeft="@dimen/small_standard_margin"
                     android:textColor="@color/colorGray"
@@ -51,6 +60,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 </FrameLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
