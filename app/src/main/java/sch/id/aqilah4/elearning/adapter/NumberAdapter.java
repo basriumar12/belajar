@@ -52,6 +52,7 @@ public class NumberAdapter extends RecyclerView.Adapter<NumberAdapter.NumberView
         public NumberViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            number_label = (TextView)itemView.findViewById(R.id.item_number_label);
         }
     }
 }

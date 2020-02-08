@@ -6,43 +6,43 @@ import com.google.gson.annotations.SerializedName;
 public class Examreport {
 
     @SerializedName("correct")
-    private Long mCorrect;
+    private Double mCorrect;
     @SerializedName("grade")
-    private Long mGrade;
+    private Double mGrade;
     @SerializedName("grade_weight")
-    private Long mGradeWeight;
+    private Double mGradeWeight;
     @SerializedName("total_exam")
-    private Long mTotalExam;
+    private Double mTotalExam;
 
-    public Long getCorrect() {
+    public Double getCorrect() {
         return mCorrect;
     }
 
-    public void setCorrect(Long correct) {
+    public void setCorrect(Double correct) {
         mCorrect = correct;
     }
 
-    public Long getGrade() {
+    public Double getGrade() {
         return mGrade;
     }
 
-    public void setGrade(Long grade) {
+    public void setGrade(Double grade) {
         mGrade = grade;
     }
 
-    public Long getGradeWeight() {
+    public Double getGradeWeight() {
         return mGradeWeight;
     }
 
-    public void setGradeWeight(Long gradeWeight) {
+    public void setGradeWeight(Double gradeWeight) {
         mGradeWeight = gradeWeight;
     }
 
-    public Long getTotalExam() {
+    public Double getTotalExam() {
         return mTotalExam;
     }
 
-    public void setTotalExam(Long totalExam) {
+    public void setTotalExam(Double totalExam) {
         mTotalExam = totalExam;
     }
 

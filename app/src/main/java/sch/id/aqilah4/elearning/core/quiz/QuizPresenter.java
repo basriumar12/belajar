@@ -104,6 +104,7 @@ public class QuizPresenter {
         view.submitHideLoading();
     }
     private void handleExamSubmitError(Throwable t){
+        Log.e("TAG","error submit exam "+t);
         view.submitExaminationError(t.getLocalizedMessage().toString());
         view.submitHideLoading();
     }

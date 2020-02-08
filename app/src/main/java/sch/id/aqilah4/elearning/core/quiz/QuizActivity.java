@@ -1,5 +1,6 @@
 package sch.id.aqilah4.elearning.core.quiz;
 
+
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -77,7 +78,7 @@ public class QuizActivity extends AppCompatActivity implements QuizView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
         ButterKnife.bind(this);
-        quiz_number_indicator = (RecyclerView) findViewById(R.id.quiz_number_indicator);
+        quiz_number_indicator = (RecyclerView)findViewById(R.id.quiz_number_indicator);
 
         quiz_description = (TextView) findViewById(R.id.quiz_description);
         quiz_loading = (ProgressBar) findViewById(R.id.quiz_loading);
@@ -98,7 +99,7 @@ public class QuizActivity extends AppCompatActivity implements QuizView {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_close);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        initComponent();
+       initComponent();
     }
 
     private void initComponent() {
@@ -109,6 +110,7 @@ public class QuizActivity extends AppCompatActivity implements QuizView {
 
         quiz_number_indicator.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.HORIZONTAL, false));
+
         quiz_number_indicator.addOnItemTouchListener(numberSelectItem());
         quiz_number_indicator.setItemAnimator(new DefaultItemAnimator());
         // Load Data;
@@ -363,7 +365,11 @@ public class QuizActivity extends AppCompatActivity implements QuizView {
         builder.setPositiveButton("Yess", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                quizPresenter.submitExamination(getIntent().getStringExtra("id"), hasils);
+                if (hasils != null) {
+                    quizPresenter.submitExamination(getIntent().getStringExtra("id"), hasils);
+                }else {
+                    finish();
+                }
             }
         });
 

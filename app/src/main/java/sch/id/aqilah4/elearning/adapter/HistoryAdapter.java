@@ -57,6 +57,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
         public HistoryViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            history_title = (TextView)itemView.findViewById(R.id.history_title);
+            history_date = (TextView)itemView.findViewById(R.id.history_date);
+            history_weight = (TextView)itemView.findViewById(R.id.history_weight);
         }
     }
 }

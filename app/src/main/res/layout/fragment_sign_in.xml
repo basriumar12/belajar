@@ -54,6 +54,7 @@
             android:layout_height="wrap_content" />
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/signin_anchor_signup"
             android:text="@string/anchor_signup"
             android:padding="@dimen/small_standard_margin"

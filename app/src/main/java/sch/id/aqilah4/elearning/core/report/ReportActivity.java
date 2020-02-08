@@ -2,10 +2,12 @@ package sch.id.aqilah4.elearning.core.report;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 
 
 import butterknife.BindView;
@@ -13,6 +15,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import flepsik.github.com.progress_ring.ProgressRingView;
 import sch.id.aqilah4.elearning.R;
+import sch.id.aqilah4.elearning.core.dashboard.DashboardActivity;
 import sch.id.aqilah4.elearning.core.examination.ExaminationActivity;
 
 public class ReportActivity extends AppCompatActivity {
@@ -28,6 +31,8 @@ public class ReportActivity extends AppCompatActivity {
     TextView report_correct;
     @BindView(R.id.report_grade)
     TextView report_grade;
+    AppCompatButton report_tryagai;
+    AppCompatButton report_session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +45,20 @@ public class ReportActivity extends AppCompatActivity {
         report_grade = (TextView)findViewById(R.id.report_grade);
         report_total = (TextView)findViewById(R.id.report_total);
         report_indicator = (ProgressRingView)findViewById(R.id.report_indicator) ;
+        report_tryagai = (AppCompatButton)findViewById(R.id.report_tryagai);
+        report_session = (AppCompatButton)findViewById(R.id.report_session);
+
 
         this.setTitle("Laporan Pembelajaran");
         initData();
+        report_session.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent   = new Intent(ReportActivity.this, DashboardActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     private void initData() {

@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import sch.id.aqilah4.elearning.R;
 import sch.id.aqilah4.elearning.core.quiz.QuizActivity;
+import sch.id.aqilah4.elearning.core.quiz.QuizV2Activity;
 import sch.id.aqilah4.elearning.models.ResponsePackage;
 import sch.id.aqilah4.elearning.models.ResponsePassedExam;
 
@@ -56,6 +58,13 @@ public class ExaminationActivity extends AppCompatActivity implements Examinatio
 
         // Load Data
         presenter.loadAll(examId);
+        exam_join.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                joinExam();
+            }
+        });
     }
 
     @Override

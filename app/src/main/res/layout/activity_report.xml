@@ -78,12 +78,13 @@
                 </LinearLayout>
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/report_session"
-                    android:text="@string/report_session"
+                    android:text="Back To Dashboard"
                     android:background="@color/colorPrimary"
                     android:textColor="@color/colorWhite"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
                 <androidx.appcompat.widget.AppCompatButton
+                    android:visibility="gone"
                     android:id="@+id/report_tryagai"
                     android:text="@string/report_trayagain"
                     android:background="@color/colorWhite"

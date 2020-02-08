@@ -67,6 +67,11 @@ public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.PackageV
         public PackageViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            package_title = (TextView)itemView.findViewById(R.id.item_list_package_title);
+            package_detail = (TextView)itemView.findViewById(R.id.item_list_package_detail);
+            package_time = (TextView)itemView.findViewById(R.id.item_list_package_time);
+            package_total = (TextView)itemView.findViewById(R.id.item_list_package_total);
+
         }
     }
 }

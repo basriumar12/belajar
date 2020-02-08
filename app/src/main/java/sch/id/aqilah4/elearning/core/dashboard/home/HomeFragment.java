@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,20 +29,28 @@ import io.reactivex.annotations.Nullable;
 import sch.id.aqilah4.elearning.R;
 import sch.id.aqilah4.elearning.adapter.CategoryAdapter;
 import sch.id.aqilah4.elearning.adapter.LatestAdapter;
+import sch.id.aqilah4.elearning.core.dashboard.transactional.TransactionalPresenter;
+import sch.id.aqilah4.elearning.core.dashboard.transactional.TransactionalView;
 import sch.id.aqilah4.elearning.models.Category;
+import sch.id.aqilah4.elearning.models.History;
+import sch.id.aqilah4.elearning.models.ListPackage;
 import sch.id.aqilah4.elearning.models.PackageLatest;
 import sch.id.aqilah4.elearning.models.ResponseCategory;
+import sch.id.aqilah4.elearning.models.ResponseHistory;
 import sch.id.aqilah4.elearning.models.ResponseLatest;
 import sch.id.aqilah4.elearning.utils.RecyclerItemClickListener;
 
 import static android.content.ContentValues.TAG;
 
-public class HomeFragment extends Fragment implements HomeView {
+public class HomeFragment extends Fragment implements HomeView, TransactionalView {
     private HomePresenter homePresenter;
     private List<Category> categories;
     private List<PackageLatest> latests;
+    private List<History> mHistory  ;
+    private TransactionalPresenter presenter;
 
-//    @BindView(R.id.home_listcategory)
+
+    //    @BindView(R.id.home_listcategory)
     RecyclerView home_listcategory;
 //    @BindView(R.id.home_loading)
     ProgressBar home_loading;
@@ -67,6 +76,9 @@ public class HomeFragment extends Fragment implements HomeView {
 
     private void initComponent(View view) {
         homePresenter   = new HomePresenter(this);
+        presenter   = new TransactionalPresenter(this);
+        presenter.loadHistory();
+
 
         // Create List Category
         home_listcategory.setLayoutManager(new GridLayoutManager(getActivity(), 3));
@@ -82,8 +94,11 @@ public class HomeFragment extends Fragment implements HomeView {
         return new RecyclerItemClickListener(getActivity(), home_listcategory, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Category category   = categories.get(position);
-                homePresenter.getItemCategory(category, getActivity());
+
+
+                    Category category = categories.get(position);
+                    homePresenter.getItemCategory(category, getActivity());
+
             }
 
             @Override
@@ -96,8 +111,20 @@ public class HomeFragment extends Fragment implements HomeView {
         return new RecyclerItemClickListener(getActivity(), home_listlatest, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                PackageLatest latest    = latests.get(position);
-                homePresenter.getItemPackage(latest, getActivity());
+                Boolean check = false;
+                if (mHistory != null) {
+                    for (int i = 0; i < mHistory.size(); i++) {
+                        if (mHistory.get(i).getExamTitle().equals(latests.get(position).getExamTitle())) {
+                            check = true;
+                        }
+                    }
+                }
+                if (!check) {
+                    PackageLatest latest = latests.get(position);
+                    homePresenter.getItemPackage(latest, getActivity());
+                } else {
+                    Toast.makeText(getActivity(), "Sudah mengikuti test", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -110,6 +137,17 @@ public class HomeFragment extends Fragment implements HomeView {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         homePresenter.loadAllData();
+    }
+
+    @Override
+    public void loadHistory(ResponseHistory history) {
+        mHistory = new ArrayList<>();
+        mHistory = history.getHistory();
+    }
+
+    @Override
+    public void loadHistoryError(String message) {
+
     }
 
     @Override

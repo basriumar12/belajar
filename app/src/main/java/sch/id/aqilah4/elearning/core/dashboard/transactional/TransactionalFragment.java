@@ -45,38 +45,32 @@ public class TransactionalFragment extends Fragment implements TransactionalView
 //        ButterKnife.bind(this, view);
 //        initComponent(view);
         View view = inflater.inflate(R.layout.fragment_transactional, container, false);
+        history_loading = view.findViewById(R.id.history_loading);
+        history_list = view.findViewById(R.id.history_list);
+
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        history_loading = view.findViewById(R.id.history_loading);
-        history_list = view.findViewById(R.id.history_list);
-
-        presenter   = new TransactionalPresenter(this);
-        histories   = new ArrayList<>();
-
-        history_list.setLayoutManager(new LinearLayoutManager(getContext()));
-        history_list.setItemAnimator(new DefaultItemAnimator());
-        history_loading = view.findViewById(R.id.history_loading);
-        history_list = view.findViewById(R.id.history_list);
-        presenter.loadHistory();
+        initComponent(view);
     }
 
-//    private void initComponent(View view) {
-//        presenter   = new TransactionalPresenter(this);
-//        histories   = new ArrayList<>();
-//
-//        history_list.setLayoutManager(new LinearLayoutManager(getContext()));
-//        history_list.setItemAnimator(new DefaultItemAnimator());
-//    }
+    private void initComponent(View view) {
+        presenter   = new TransactionalPresenter(this);
+        histories   = new ArrayList<>();
+        presenter.loadHistory();
+        history_list.setLayoutManager(new LinearLayoutManager(getContext()));
+        history_list.setItemAnimator(new DefaultItemAnimator());
+        history_list.setAdapter(new HistoryAdapter(getContext(), histories, R.layout.item_history));
+
+    }
     @Override
     public void loadHistory(ResponseHistory history) {
         if (history.getStatus().booleanValue()){
             histories   = history.getHistory();
-            history_list.setAdapter(new HistoryAdapter(getContext(), histories, R.layout.item_history));
+           history_list.setAdapter(new HistoryAdapter(getContext(), histories, R.layout.item_history));
         }else{
             Toast.makeText(getActivity(), "Terjadi Kesalahan", Toast.LENGTH_SHORT).show();
         }
