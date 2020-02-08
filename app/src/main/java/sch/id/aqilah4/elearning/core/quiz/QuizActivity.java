@@ -13,6 +13,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,9 +21,12 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -46,26 +50,51 @@ public class QuizActivity extends AppCompatActivity implements QuizView {
     private int totalQuestion;
     @BindView(R.id.quiz_number_indicator)
     RecyclerView quiz_number_indicator;
-    @BindView(R.id.quiz_description) TextView quiz_description;
-    @BindView(R.id.quiz_loading) ProgressBar quiz_loading;
+    @BindView(R.id.quiz_description)
+    TextView quiz_description;
+    @BindView(R.id.quiz_loading)
+    ProgressBar quiz_loading;
     @BindView(R.id.quiz_back)
     AppCompatButton quiz_back;
-    @BindView(R.id.quiz_passed) AppCompatButton quiz_passed;
-    @BindView(R.id.quiz_next) AppCompatButton quiz_next;
-    @BindView(R.id.quiz_answer) RadioGroup quiz_answer;
+    @BindView(R.id.quiz_passed)
+    AppCompatButton quiz_passed;
+    @BindView(R.id.quiz_next)
+    AppCompatButton quiz_next;
+    @BindView(R.id.quiz_answer)
+    RadioGroup quiz_answer;
 
-    @BindView(R.id.quiz_answer_a) RadioButton quiz_a;
-    @BindView(R.id.quiz_answer_b) RadioButton quiz_b;
-    @BindView(R.id.quiz_answer_c) RadioButton quiz_c;
-    @BindView(R.id.quiz_answer_d) RadioButton quiz_d;
+    @BindView(R.id.quiz_answer_a)
+    RadioButton quiz_a;
+    @BindView(R.id.quiz_answer_b)
+    RadioButton quiz_b;
+    @BindView(R.id.quiz_answer_c)
+    RadioButton quiz_c;
+    @BindView(R.id.quiz_answer_d)
+    RadioButton quiz_d;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
         ButterKnife.bind(this);
+        quiz_number_indicator = (RecyclerView) findViewById(R.id.quiz_number_indicator);
+
+        quiz_description = (TextView) findViewById(R.id.quiz_description);
+        quiz_loading = (ProgressBar) findViewById(R.id.quiz_loading);
+
+        quiz_back = (AppCompatButton) findViewById(R.id.quiz_back);
+        quiz_passed = (AppCompatButton) findViewById(R.id.quiz_passed);
+        quiz_next = (AppCompatButton) findViewById(R.id.quiz_next);
+        quiz_answer = (RadioGroup) findViewById(R.id.quiz_answer);
+
+        quiz_a = (RadioButton) findViewById(R.id.quiz_answer_a);
+        quiz_b = (RadioButton) findViewById(R.id.quiz_answer_b);
+        quiz_c = (RadioButton) findViewById(R.id.quiz_answer_c);
+        quiz_d = (RadioButton) findViewById(R.id.quiz_answer_d);
+
+
         ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null){
+        if (actionBar != null) {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_close);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
@@ -73,10 +102,10 @@ public class QuizActivity extends AppCompatActivity implements QuizView {
     }
 
     private void initComponent() {
-        quizPresenter   = new QuizPresenter(this);
+        quizPresenter = new QuizPresenter(this);
         //requestAnswers  = new ArrayList<>();
-        hasils          = new ArrayList<>();
-        progressDialog  = new ProgressDialog(this);
+        hasils = new ArrayList<>();
+        progressDialog = new ProgressDialog(this);
 
         quiz_number_indicator.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.HORIZONTAL, false));
@@ -84,8 +113,29 @@ public class QuizActivity extends AppCompatActivity implements QuizView {
         quiz_number_indicator.setItemAnimator(new DefaultItemAnimator());
         // Load Data;
         quizPresenter.loadExamination(getIntent().getStringExtra("id"));
+        quiz_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                quizBack();
+            }
+        });
+
+        quiz_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                quizNext();
+            }
+        });
+
+        quiz_passed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                quizPassed();
+            }
+        });
     }
-    private String getAnswerLabel(String answer_data){
+
+    private String getAnswerLabel(String answer_data) {
         String hasil = null;
         answer_data = answer_data.trim();
         if (answer_data.equalsIgnoreCase(examinations.get(currentNumber).getAnswer().getA().toString().trim()))
@@ -100,18 +150,20 @@ public class QuizActivity extends AppCompatActivity implements QuizView {
             hasil = "W";
         return hasil;
     }
-    private boolean validateChecked(){
-        int selected    = quiz_answer.getCheckedRadioButtonId();
-        if (selected == -1){
+
+    private boolean validateChecked() {
+        int selected = quiz_answer.getCheckedRadioButtonId();
+        if (selected == -1) {
             return false;
-        }else{
+        } else {
             return true;
         }
     }
-    private void saveTempQuiz(){
+
+    private void saveTempQuiz() {
         Hasil hasil = new Hasil();
 
-        int selected    = quiz_answer.getCheckedRadioButtonId();
+        int selected = quiz_answer.getCheckedRadioButtonId();
         RadioButton answer_data = (RadioButton) findViewById(selected);
         String answer_label = getAnswerLabel(answer_data.getText().toString());
         try {
@@ -119,14 +171,15 @@ public class QuizActivity extends AppCompatActivity implements QuizView {
             hasil.setJawab(answer_label);
             hasil.setSoalId(examinations.get(currentNumber).getQuestionId().toString());
             hasils.set(currentNumber, hasil);
-        }catch (IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             hasil.setJawab(answer_label);
             hasil.setSoalId(examinations.get(currentNumber).getQuestionId().toString().trim());
             hasils.add(hasil);
         }
-        Log.d(TAG, "saveTempQuiz: "+ answer_label);
+        Log.d(TAG, "saveTempQuiz: " + answer_label);
     }
-    private RecyclerItemClickListener numberSelectItem(){
+
+    private RecyclerItemClickListener numberSelectItem() {
         return new RecyclerItemClickListener(this, quiz_number_indicator, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -140,46 +193,50 @@ public class QuizActivity extends AppCompatActivity implements QuizView {
             }
         });
     }
+
     @OnClick(R.id.quiz_back)
-    public void quizBack(){
-        if (!validateChecked()){
+    public void quizBack() {
+        if (!validateChecked()) {
             Toast.makeText(this, "Please select one of the Answer", Toast.LENGTH_SHORT).show();
             return;
         }
         saveTempQuiz();
-        currentNumber = currentNumber==0?0:currentNumber-1;
+        currentNumber = currentNumber == 0 ? 0 : currentNumber - 1;
         quizPresenter.changeQuiz(currentNumber, examinations);
     }
+
     @OnClick(R.id.quiz_passed)
-    public void quizPassed(){
-        if (!validateChecked()){
+    public void quizPassed() {
+        if (!validateChecked()) {
             Toast.makeText(this, "Please select one of the Answer", Toast.LENGTH_SHORT).show();
             return;
         }
         saveTempQuiz();
         createConfirmation();
     }
+
     @OnClick(R.id.quiz_next)
-    public void quizNext(){
-        if (!validateChecked()){
+    public void quizNext() {
+        if (!validateChecked()) {
             Toast.makeText(this, "Please select one of the Answer", Toast.LENGTH_SHORT).show();
             return;
         }
         saveTempQuiz();
-        currentNumber   = currentNumber==(totalQuestion-1)?currentNumber:currentNumber+1;
+        currentNumber = currentNumber == (totalQuestion - 1) ? currentNumber : currentNumber + 1;
         quizPresenter.changeQuiz(currentNumber, examinations);
     }
+
     @Override
     public void loadExamination(ResponsePackage responsePackage) {
-        examinations    = responsePackage.getExamination();
+        examinations = responsePackage.getExamination();
 
-        totalQuestion   = responsePackage.getExamination().size();
+        totalQuestion = responsePackage.getExamination().size();
         List<Integer> numIndicator;
-        numIndicator    = new ArrayList<>();
-        for (int i=0; i<totalQuestion; i++){
+        numIndicator = new ArrayList<>();
+        for (int i = 0; i < totalQuestion; i++) {
             numIndicator.add(i);
         }
-        currentNumber   = 0;
+        currentNumber = 0;
         // Set Soal by Current Number
         quizPresenter.changeQuiz(currentNumber, examinations);
         // Set Number Indicator
@@ -216,8 +273,8 @@ public class QuizActivity extends AppCompatActivity implements QuizView {
             hasils.get(currentNumber);
             // Checked
             String myAnswer = hasils.get(currentNumber).getJawab().toString().trim();
-            Log.d(TAG, "Jawaban :"+myAnswer);
-            Log.d(TAG, "Jawaban :"+hasils.get(currentNumber).getSoalId().toString().trim());
+            Log.d(TAG, "Jawaban :" + myAnswer);
+            Log.d(TAG, "Jawaban :" + hasils.get(currentNumber).getSoalId().toString().trim());
 
             if ("A".equalsIgnoreCase(myAnswer))
                 quiz_a.setChecked(true);
@@ -228,7 +285,7 @@ public class QuizActivity extends AppCompatActivity implements QuizView {
             else if ("D".equalsIgnoreCase(myAnswer))
                 quiz_d.setChecked(true);
 
-        }catch (IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             quiz_answer.clearCheck();
         }
     }
@@ -240,11 +297,11 @@ public class QuizActivity extends AppCompatActivity implements QuizView {
 
     @Override
     public void submitExamination(ResponseReport responseReport) {
-        Log.d(TAG, "submitExamination: "+responseReport.getExamreport().getCorrect().toString());
-        Gson gson   = new Gson();
-        Log.d(TAG, "submitExamination: "+ gson.toJson(responseReport).toString());
-        if (responseReport.getStatus()){
-            Intent intent   = new Intent(QuizActivity.this, ReportActivity.class);
+        Log.d(TAG, "submitExamination: " + responseReport.getExamreport().getCorrect().toString());
+        Gson gson = new Gson();
+        Log.d(TAG, "submitExamination: " + gson.toJson(responseReport).toString());
+        if (responseReport.getStatus()) {
+            Intent intent = new Intent(QuizActivity.this, ReportActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             /* Set Data */
@@ -257,14 +314,14 @@ public class QuizActivity extends AppCompatActivity implements QuizView {
             /* Set Data */
             startActivity(intent);
             finish();
-        }else{
+        } else {
             Toast.makeText(this, "Terjadi Kesalahan", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void submitExaminationError(String messages) {
-        Toast.makeText(this, "Error : "+messages, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Error : " + messages, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -284,7 +341,7 @@ public class QuizActivity extends AppCompatActivity implements QuizView {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 //onBackPressed();
                 createConfirmation();
@@ -298,7 +355,7 @@ public class QuizActivity extends AppCompatActivity implements QuizView {
         createConfirmation();
     }
 
-    private void createConfirmation(){
+    private void createConfirmation() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setMessage("Apakah Anda Yakin Mengakhiri Ujian Ini ?");

@@ -119,20 +119,20 @@ public class HomeFragment extends Fragment implements HomeView {
 
     @Override
     public void hideLoading() {
-        home_loading.setVisibility(View.GONE);
+       home_loading.setVisibility(View.GONE);
     }
 
     @Override
     public void categorySuccess(ResponseCategory responseCategory) {
         if (responseCategory.getStatus()){
             this.categories = responseCategory.getCategory();
-            home_listcategory.setAdapter(new CategoryAdapter(getActivity(), categories, R.layout.item_category));
+            home_listcategory.setAdapter(new CategoryAdapter(getActivity(), categories));
         }
     }
 
     @Override
     public void categoryFailed(String failed) {
-        Toast.makeText(getActivity(), "Terjadi Kesalahan : "+failed, Toast.LENGTH_SHORT).show();
+       Toast.makeText(getActivity(), "Terjadi Kesalahan : "+failed, Toast.LENGTH_SHORT).show();
     }
 
     @Override

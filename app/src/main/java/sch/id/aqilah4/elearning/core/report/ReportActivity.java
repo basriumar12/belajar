@@ -34,6 +34,13 @@ public class ReportActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
         ButterKnife.bind(this);
+        report_title = (TextView)findViewById(R.id.report_title);
+        report_date = (TextView)findViewById(R.id.report_date);
+        report_correct = (TextView)findViewById(R.id.report_correct);
+        report_grade = (TextView)findViewById(R.id.report_grade);
+        report_total = (TextView)findViewById(R.id.report_total);
+        report_indicator = (ProgressRingView)findViewById(R.id.report_indicator) ;
+
         this.setTitle("Laporan Pembelajaran");
         initData();
     }

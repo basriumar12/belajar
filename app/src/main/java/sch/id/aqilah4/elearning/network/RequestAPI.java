@@ -32,6 +32,7 @@ public interface RequestAPI {
                                       @Field("stage") String level);
     @GET("category")
     Observable<ResponseCategory> category(@Header("Authorization") String token);
+
     @GET("package/latest")
     Observable<ResponseLatest> latestpackage(@Header("Authorization") String token);
     @GET("category/detail")

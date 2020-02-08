@@ -20,7 +20,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     private List<Category> categories;
     private int rowLayout;
 
-    public CategoryAdapter(Context context, List<Category> categories, int rowLayout) {
+    public CategoryAdapter(Context context, List<Category> categories) {
         this.context = context;
         this.categories = categories;
         this.rowLayout = rowLayout;
@@ -28,7 +28,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     @Override
     public CategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view   = LayoutInflater.from(parent.getContext()).inflate(rowLayout, parent, false);
+        View view   = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_category, parent, false);
         CategoryViewHolder  viewHolder  = new CategoryViewHolder(view);
         return viewHolder;
     }
@@ -58,7 +58,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         TextView category_title;
         public CategoryViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
+           category_pict = (ImageView)itemView.findViewById(R.id.item_category_pict);
+           category_title = (TextView)itemView.findViewById(R.id.item_category_title);
         }
     }
 }

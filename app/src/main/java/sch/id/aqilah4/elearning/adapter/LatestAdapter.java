@@ -70,6 +70,10 @@ public class LatestAdapter extends RecyclerView.Adapter<LatestAdapter.LatestView
         public LatestViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            latest_pict = (ImageView)itemView.findViewById(R.id.item_latest_pict);
+            latest_title = (TextView)itemView.findViewById(R.id.item_latest_title);
+            latest_time = (TextView)itemView.findViewById(R.id.item_latest_time);
+            latest_total = (TextView)itemView.findViewById(R.id.item_latest_total);
         }
     }
 }

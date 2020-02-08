@@ -37,6 +37,10 @@ public class ExaminationActivity extends AppCompatActivity implements Examinatio
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_examination);
+        exam_title = (TextView) findViewById(R.id.exam_title);
+        exam_time = (TextView) findViewById(R.id.exam_time);
+        exam_total = (TextView) findViewById(R.id.exam_total);
+        exam_join = (AppCompatButton) findViewById(R.id.exam_join);
         ButterKnife.bind(this);
         initComponent();
     }

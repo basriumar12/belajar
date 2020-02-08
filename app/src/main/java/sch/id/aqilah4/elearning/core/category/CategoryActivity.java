@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,6 +46,11 @@ public class CategoryActivity extends AppCompatActivity implements CategoryView 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
         ButterKnife.bind(this);
+        loading_detail_category = (ProgressBar)findViewById(R.id.detail_category_loading);
+        title_category = (TextView)findViewById(R.id.detail_category_title);
+        detail_category = (TextView)findViewById(R.id.detail_category_detail);
+
+        detail_category_package = (RecyclerView) findViewById(R.id.detail_category_package);
         this.setTitle(getIntent().getStringExtra("title"));
         initComponent();
         // Load Data

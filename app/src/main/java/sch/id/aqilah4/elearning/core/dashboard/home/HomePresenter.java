@@ -45,22 +45,26 @@ public class HomePresenter {
     public void loadAllData(){
         view.showLoading();
         loadToken();
-        if (mCompositeDisposable == null)
-            mCompositeDisposable = new CompositeDisposable();
-        Observable<CategoryAndLatest> combineData   = Observable.zip(
-                loadCategoryData(),
-                loadLatestData(),
-                new BiFunction<ResponseCategory, ResponseLatest, CategoryAndLatest>() {
-                    @Override
-                    public CategoryAndLatest apply(@NonNull ResponseCategory responseCategory,
-                                                   @NonNull ResponseLatest latest) throws Exception {
-                        return new CategoryAndLatest(responseCategory, latest);
+        try {
+            if (mCompositeDisposable == null)
+                mCompositeDisposable = new CompositeDisposable();
+            Observable<CategoryAndLatest> combineData = Observable.zip(
+                    loadCategoryData(),
+                    loadLatestData(),
+                    new BiFunction<ResponseCategory, ResponseLatest, CategoryAndLatest>() {
+                        @Override
+                        public CategoryAndLatest apply(@NonNull ResponseCategory responseCategory,
+                                                       @NonNull ResponseLatest latest) throws Exception {
+                            return new CategoryAndLatest(responseCategory, latest);
+                        }
                     }
-                }
-        );
-        mCompositeDisposable.add(
-                combineData.subscribe(categoryAndLatest -> combineSuccessObserver(categoryAndLatest))
-        );
+            );
+            mCompositeDisposable.add(
+                    combineData.subscribe(categoryAndLatest -> combineSuccessObserver(categoryAndLatest))
+            );
+        }catch (Exception e){
+            Log.e("TAG","error "+e);
+        }
     }
     // Combine Observer
     private void combineSuccessObserver(CategoryAndLatest categoryAndLatest){

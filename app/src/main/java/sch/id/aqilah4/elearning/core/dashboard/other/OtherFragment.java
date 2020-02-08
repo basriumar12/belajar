@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
 
@@ -20,6 +21,11 @@ import sch.id.aqilah4.elearning.core.authentication.AuthActivity;
 
 public class OtherFragment extends Fragment implements OtherView {
     private OtherPresenter presenter;
+    AppCompatButton other_signout;
+    AppCompatButton other_about;
+    AppCompatButton other_helpme;
+
+
     public OtherFragment() {
     }
     @Override
@@ -27,6 +33,28 @@ public class OtherFragment extends Fragment implements OtherView {
                              Bundle savedInstanceState) {
         View view   = inflater.inflate(R.layout.fragment_other, container, false);
         ButterKnife.bind(this, view);
+        other_about = (AppCompatButton)view.findViewById(R.id.other_about);
+        other_helpme = (AppCompatButton)view.findViewById(R.id.other_helpme);
+        other_signout = (AppCompatButton)view.findViewById(R.id.other_signout);
+
+        other_signout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signoutProcess();
+            }
+        });
+        other_helpme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                helpMe();
+            }
+        });
+        other_about.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                aboutUs();
+            }
+        });
         initComponent(view);
         return view;
     }
@@ -36,6 +64,7 @@ public class OtherFragment extends Fragment implements OtherView {
     }
 
     @OnClick(R.id.other_signout)
+
     public void signoutProcess(){
         presenter.signoutSystem();
     }

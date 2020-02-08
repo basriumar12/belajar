@@ -44,9 +44,8 @@ public class TransactionalFragment extends Fragment implements TransactionalView
 //        View view = inflater.inflate(R.layout.fragment_transactional, container, false);
 //        ButterKnife.bind(this, view);
 //        initComponent(view);
-        return inflater.inflate(R.layout.fragment_transactional, container, false);
-
-//        return view;
+        View view = inflater.inflate(R.layout.fragment_transactional, container, false);
+        return view;
     }
 
     @Override
